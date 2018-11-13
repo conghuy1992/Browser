@@ -45,7 +45,7 @@ public class CommonWebViewFragment extends Fragment {
     private String TAG = "WebviewFragment";
     private CommonWebviewFragmentBinding binding;
     //    private String url = "https://www.google.com";
-    private String url = "https://www.24h.com.vn/";
+    private String url = "";
     private ArrayList<String> listAdv;
     private WebViewCallBack webViewCallBack;
 
@@ -91,6 +91,7 @@ public class CommonWebViewFragment extends Fragment {
     }
 
     public void bind() {
+        if(url.trim().length()==0)url=new PrefManager(getActivity()).getLastUrl();
         listAdv = Utils.get_adv(getActivity());
         Log.d(TAG, "URL:" + url);
         WebSettings webSettings = binding.webView.getSettings();
@@ -128,6 +129,13 @@ public class CommonWebViewFragment extends Fragment {
 
     public void loadUrl(String url) {
         binding.webView.loadUrl(url);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(getActivity()==null)return;
+        new PrefManager(getActivity()).setLastUrl(binding.webView.getUrl());
     }
 
     private void dismissSwipeRefreshLayout() {

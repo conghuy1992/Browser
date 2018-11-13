@@ -9,7 +9,8 @@ public class PrefManager {
     // shared pref mode
     private int PRIVATE_MODE = 0;
     private String PREF_NAME = "Browser";
-    private String homePage="homePage";
+    private String homePage = "homePage";
+    private String lastUrl = "lastUrl";
 
     public PrefManager(Context context) {
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -20,6 +21,7 @@ public class PrefManager {
         editor.clear();
         editor.commit();
     }
+
     public void setHomePage(String s) {
         editor.putString(homePage, s);
         editor.commit();
@@ -27,5 +29,14 @@ public class PrefManager {
 
     public String getHomePage() {
         return pref.getString(homePage, Statics.PAGE_DEFAULT);
+    }
+
+    public void setLastUrl(String s) {
+        editor.putString(lastUrl, s);
+        editor.commit();
+    }
+
+    public String getLastUrl() {
+        return pref.getString(lastUrl, Statics.PAGE_DEFAULT);
     }
 }
