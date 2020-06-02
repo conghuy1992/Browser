@@ -7,29 +7,28 @@
 
         <!--<import type="android.view.View"/>-->
 
-        <!--<variable-->
-        <!--name="viewModel"-->
-        <!--type="com.conghuy.phim.model.CommonModel" />-->
+        <!--        <variable-->
+        <!--            name="viewModel"-->
+        <!--            type="com.conghuy.truyencheonline.model.CommonModel" />-->
     </data>
 
     <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/header"
-            layout="@layout/header_layout" />
-
-        <include layout="@layout/line_layout" />
-
-        <FrameLayout
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:hint="Aa"
+            android:imeOptions="actionGo"
+            android:singleLine="true" />
+        <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </layout>

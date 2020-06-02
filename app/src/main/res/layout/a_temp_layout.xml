@@ -7,9 +7,9 @@
 
         <!--<import type="android.view.View"/>-->
 
-        <!--<variable-->
-            <!--name="viewModel"-->
-            <!--type="com.conghuy.phim.model.CommonModel" />-->
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.conghuy.truyencheonline.model.CommonModel" />-->
     </data>
 
     <LinearLayout
