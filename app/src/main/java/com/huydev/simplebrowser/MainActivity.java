@@ -16,16 +16,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    private BrowserFragment browserFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        browserFragment = new BrowserFragment();
         Utils.addFragment(
                 getSupportFragmentManager(),
                 "",
                 R.id.root,
-                new BrowserFragment()
+                browserFragment
         );
+    }
+
+    @Override
+    public void onBackPressed() {
+        browserFragment.back();
     }
 }

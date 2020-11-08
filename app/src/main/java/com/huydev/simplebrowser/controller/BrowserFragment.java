@@ -1,6 +1,8 @@
 package com.huydev.simplebrowser.controller;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,7 +29,6 @@ import com.huydev.simplebrowser.common.Statics;
 import com.huydev.simplebrowser.common.Utils;
 import com.huydev.simplebrowser.databinding.BrowserFragmentBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,6 +40,7 @@ public class BrowserFragment extends Fragment {
     private String TAG = this.getClass().getSimpleName();
     private BrowserFragmentBinding binding;
     private List<String> listAdv;
+
     public BrowserFragment() {
 
     }
@@ -82,12 +84,32 @@ public class BrowserFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_GO) {
                     loadUrl(binding.input.getText().toString().trim());
-                    Utils.hideKeyboardFrom(getActivity(),binding.input);
+                    Utils.hideKeyboardFrom(getActivity(), binding.input);
                     return true;
                 }
                 return false;
             }
         });
+        binding.header.setOnSystemUiVisibilityChangeListener(
+                new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int i) {
+                        binding.header.setVisibility(i != 0 ? View.GONE : View.VISIBLE);
+                    }
+                }
+        );
+        binding.open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(binding.input.getText().toString()));
+                startActivity(browserIntent);
+            }
+        });
+    }
+
+    public void back() {
+        if (binding.webView.canGoBack()) binding.webView.goBack();
+        else getActivity().onBackPressed();
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -115,9 +137,11 @@ public class BrowserFragment extends Fragment {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             Log.d(TAG, "onPageFinished url:" + url);
+            binding.input.setText(url);
 //            if (callBack != null) callBack.onPageFinished(url);
         }
     }
+
     private class MyWebChromeClient extends WebChromeClient {
         public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
             return super.onJsAlert(view, url, message, result);
@@ -134,7 +158,8 @@ public class BrowserFragment extends Fragment {
             super.onProgressChanged(view, newProgress);
         }
     }
-    private void loadUrl(String url){
+
+    private void loadUrl(String url) {
         binding.webView.loadUrl(url);
     }
 }
